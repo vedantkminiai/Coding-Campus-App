@@ -1,0 +1,24 @@
+/* src/pages/HackathonPage.css */
+
+.hackathon-timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.hackathon-timeline__line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent2), var(--accent));
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+@media (max-width: 700px) {
+  .hackathon-timeline__line {
+    left: 24px;
+    transform: none;
+  }
+}

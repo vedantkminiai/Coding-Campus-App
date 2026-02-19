@@ -1,0 +1,39 @@
+/* src/components/SocialCard.css */
+
+.social-card {
+  cursor: pointer;
+}
+
+.social-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.social-card__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.social-card__detail {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.social-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: gap 0.2s;
+  text-decoration: none;
+}
+.social-card__link:hover {
+  gap: 0.7rem;
+}

@@ -1,0 +1,42 @@
+/* src/components/TeamCard.css */
+
+.team-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+.team-card:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
+}
+
+.team-card__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 auto 1rem;
+  color: #fff;
+}
+
+.team-card__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.team-card__role {
+  color: var(--muted);
+  font-size: 0.85rem;
+}

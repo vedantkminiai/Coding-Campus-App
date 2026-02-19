@@ -1,0 +1,19 @@
+/* src/pages/ContactPage.css */
+
+.contact-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.contact-page__team-section {
+  border-top: 1px solid var(--border);
+  padding-top: 4rem;
+}
+
+.contact-page__team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
