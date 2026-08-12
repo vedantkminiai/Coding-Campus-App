@@ -17,13 +17,22 @@ function TimelineItem({ event, index }) {
 
         {event.hasVideo && !playing && (
           <button
-            className="timeline-item__video-placeholder"
+            className={`timeline-item__video-placeholder${event.image ? " timeline-item__video-placeholder--image" : ""}`}
             onClick={() => setPlaying(true)}
             aria-label={`Play video for ${event.title}`}
           >
-            <span className="timeline-item__play-icon" aria-hidden>▶</span>
-            <span>Click to play video</span>
-            <span className="timeline-item__video-source">YouTube</span>
+            {event.image && (
+              <img
+                className="timeline-item__video-thumbnail"
+                src={event.image}
+                alt="Apple Hacks 2024 opening ceremony workshop overview"
+              />
+            )}
+            <span className="timeline-item__video-overlay">
+              <span className="timeline-item__play-icon" aria-hidden>▶</span>
+              <span>Click to play video</span>
+              <span className="timeline-item__video-source">YouTube</span>
+            </span>
           </button>
         )}
 

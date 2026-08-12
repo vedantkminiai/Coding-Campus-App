@@ -3,53 +3,54 @@
 
 export const HACKATHON_EVENTS = [
   {
-    date: "MARCH 1, 2024",
+    date: "SEPTEMBER 6, 2024",
     emoji: "🚀",
     tag: "KICKOFF",
     title: "Hackathon Opening Ceremony",
     desc:
-      "80+ students gathered for the grand opening. Teams were formed, themes announced, and mentors introduced. The energy in the room was electric as participants geared up for 48 hours of building.",
-    videoId: "dQw4w9WgXcQ", // replace with your real YouTube video ID
+      "Coding Campus welcomed hackers to Apple Hacks 2024 and introduced the mental-health theme, three-day schedule, seven workshops, prizes, team rules, submission process, and judging criteria before officially kicking off the competition.",
+    videoId: "mE_zXQlx4N4",
+    image: "/images/apple-hacks-opening-ceremony.png",
     hasVideo: true,
   },
   {
-    date: "MARCH 1, 2024",
+    date: "SEPTEMBER 6, 2024",
     emoji: "🧠",
     tag: "WORKSHOP",
-    title: "Intro to APIs & Backend Workshop",
+    title: "AI Workshop Using Roboflow",
     desc:
-      "Lead mentor delivered a 90-minute deep dive into REST APIs, authentication patterns, and connecting front-ends to databases. Hands-on coding along included.",
-    videoId: "ysz5S6PUM-U",
+      "A hands-on introduction to computer vision with Roboflow. Participants created a project, uploaded and annotated aerial imagery, organized datasets, and explored model training, deployment, and inference through a deforestation-detection example.",
+    videoId: "WL4PgFsJO5U",
     hasVideo: true,
   },
   {
-    date: "MARCH 2, 2024",
-    emoji: "⚙️",
+    date: "SEPTEMBER 6, 2024",
+    emoji: "🐍",
     tag: "WORKSHOP",
-    title: "React & UI/UX Sprint Workshop",
+    title: "Intro to Python Workshop",
     desc:
-      "Students learned how to rapidly prototype UIs using React. Covered component patterns, state management basics, and how to think like a designer.",
-    videoId: "w7ejDZ8SWv8",
+      "A beginner-friendly, hands-on tour of Python covering print statements, indentation, variables, data types and conversions, basic arithmetic operators, and user input through live coding examples.",
+    videoId: "-8pkt-xOP-M",
     hasVideo: true,
   },
   {
-    date: "MARCH 2, 2024",
-    emoji: "🏆",
-    tag: "PRESENTATIONS",
-    title: "Project Demos & Finals",
+    date: "SEPTEMBER 6, 2024",
+    emoji: "💡",
+    tag: "WORKSHOP",
+    title: "How to Get the Most Out of Hackathons",
     desc:
-      "12 teams presented their projects to a panel of 5 industry judges. Projects ranged from AI study tools to community event apps — an incredible showcase of talent.",
-    videoId: "tgbNymZ7vqY",
+      "Practical guidance for choosing a team, planning and scoping a project, using workshops and mentors, networking, presenting effectively, and learning from the experience—with personal growth and collaboration placed above winning.",
+    videoId: "FEl4_DfpKyw",
     hasVideo: true,
   },
   {
-    date: "MARCH 2, 2024",
+    date: "SEPTEMBER 8, 2024",
     emoji: "🎉",
     tag: "AWARDS",
-    title: "Awards & Closing Ceremony",
+    title: "Apple Hacks 2024 Closing Ceremony",
     desc:
-      "Winners announced! First place went to Team NovaMind for their AI-powered tutoring platform. All participants received certificates and swag.",
-    videoId: null,
-    hasVideo: false,
+      "Coding Campus celebrated three days of innovation, 30 submitted projects, successful workshops, and new community connections before recognizing the finalists and announcing winners across the solo, UI/UX, technology, community choice, runner-up, and overall categories.",
+    videoId: "4-wNWEUd864",
+    hasVideo: true,
   },
 ];
