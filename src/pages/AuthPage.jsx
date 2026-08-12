@@ -1,53 +1,70 @@
 // src/pages/AuthPage.jsx
 import React, { useState } from "react";
 import BrandMark from "../components/BrandMark";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import "./AuthPage.css";
 
-function AuthPage({ onLogin, users, setUsers }) {
+function AuthPage() {
   const [mode, setMode] = useState("login"); // "login" | "register"
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const switchMode = () => {
     setMode((m) => (m === "login" ? "register" : "login"));
     setError("");
+    setMessage("");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError("");
+    setMessage("");
 
-    if (!username.trim() || !password.trim()) {
+    if (!isSupabaseConfigured) {
+      setError("Add your Supabase project URL and publishable key to .env.local, then restart the app.");
+      return;
+    }
+
+    if (!email.trim() || !password.trim() || (mode === "register" && !username.trim())) {
       setError("Please fill in all required fields.");
       return;
     }
 
-    if (mode === "register") {
-      if (users[username]) {
-        setError("Username already taken. Please choose another.");
-        return;
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      if (mode === "register") {
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: { data: { username: username.trim() } },
+        });
+
+        if (signUpError) throw signUpError;
+
+        if (!data.session) {
+          setMessage("Account created. Check your email to confirm your account, then log in.");
+        }
+      } else {
+        const { error: loginError } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+
+        if (loginError) throw loginError;
       }
-      if (password.length < 6) {
-        setError("Password must be at least 6 characters.");
-        return;
-      }
-      const newUser = {
-        username,
-        password,
-        email,
-        scores: [],
-        joined: Date.now(),
-      };
-      setUsers({ ...users, [username]: newUser });
-      onLogin(newUser);
-    } else {
-      const found = users[username];
-      if (!found || found.password !== password) {
-        setError("Invalid username or password.");
-        return;
-      }
-      onLogin(found);
+    } catch (submitError) {
+      setError(submitError.message || "Authentication failed. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -68,34 +85,34 @@ function AuthPage({ onLogin, users, setUsers }) {
             : "Create an account to track your scores."}
         </p>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="username">Username</label>
-          <input
-            id="username"
-            className="form-input"
-            placeholder="e.g. codeninja42"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={handleKeyDown}
-            autoComplete="username"
-          />
-        </div>
-
         {mode === "register" && (
           <div className="form-group">
-            <label className="form-label" htmlFor="email">Email <span style={{ color: "var(--muted)" }}>(optional)</span></label>
+            <label className="form-label" htmlFor="username">Username</label>
             <input
-              id="email"
+              id="username"
               className="form-input"
-              type="email"
-              placeholder="you@school.edu"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="e.g. codeninja42"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               onKeyDown={handleKeyDown}
-              autoComplete="email"
+              autoComplete="username"
             />
           </div>
         )}
+
+        <div className="form-group">
+          <label className="form-label" htmlFor="email">Email</label>
+          <input
+            id="email"
+            className="form-input"
+            type="email"
+            placeholder="you@school.edu"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoComplete="email"
+          />
+        </div>
 
         <div className="form-group">
           <label className="form-label" htmlFor="password">Password</label>
@@ -112,12 +129,14 @@ function AuthPage({ onLogin, users, setUsers }) {
         </div>
 
         {error && <p className="form-error">⚠ {error}</p>}
+        {message && <p className="auth-box__message">{message}</p>}
 
         <button
           className="btn-primary auth-box__submit"
           onClick={handleSubmit}
+          disabled={submitting}
         >
-          {mode === "login" ? "Log In" : "Create Account"}
+          {submitting ? "Please wait…" : mode === "login" ? "Log In" : "Create Account"}
         </button>
 
         <p className="auth-box__switch">

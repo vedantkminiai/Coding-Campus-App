@@ -6,7 +6,7 @@ export const SOCIAL_LINKS = [
     platform: "linkedin",
     title: "LinkedIn",
     detail: "Follow Coding Campus for organization news, opportunities, and community updates.",
-    href: "https://www.linkedin.com/company/103302082/admin/dashboard/",
+    href: "https://www.linkedin.com/company/103302082/",
     linkLabel: "Visit LinkedIn",
   },
   {

@@ -41,7 +41,7 @@ function QuestionCard({ question, selected, onSelect, onNext, onExit, isLast, sc
       <p className="question-card__text">{question.q}</p>
 
       {/* Options */}
-      <ul className="question-card__options" role="list">
+      <ul className="question-card__options">
         {question.options.map((opt, i) => {
           let cls = "option-btn";
           if (answered) {

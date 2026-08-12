@@ -1,12 +1,12 @@
 // src/pages/QuizPage.jsx
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BrandMark from "../components/BrandMark";
 import AuthPage from "./AuthPage";
 import ProgressionPath from "../components/quiz/ProgressionPath";
 import QuestionCard from "../components/quiz/QuestionCard";
 import ResultsScreen from "../components/quiz/ResultsScreen";
-import useLocalStorage from "../hooks/useLocalStorage";
 import { LEETCODE_TOPICS, QUESTIONS } from "../data/quiz";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import "./QuizPage.css";
 
 // Shuffle array (Fisher-Yates)
@@ -19,24 +19,9 @@ function shuffle(arr) {
   return a;
 }
 
-// Build leaderboard for a topic from the full users object
-function buildLeaderboard(users, topicName) {
-  return Object.values(users)
-    .flatMap((u) =>
-      (u.scores || [])
-        .filter((s) => s.topic === topicName)
-        .map((s) => ({ name: u.username, score: s.score }))
-    )
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5);
-}
-
 const PHASES = { TOPICS: "topics", PLAYING: "playing", RESULTS: "results" };
 
-function QuizPage() {
-  const [users, setUsers] = useLocalStorage("cc_users", {});
-  const [user, setUser] = useLocalStorage("cc_user", null);
-
+function QuizPage({ user, authLoading, onLogout }) {
   // Quiz state
   const [phase, setPhase] = useState(PHASES.TOPICS);
   const [activeTopic, setActiveTopic] = useState(null);
@@ -44,12 +29,62 @@ function QuizPage() {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false);
+  const [dataError, setDataError] = useState("");
 
-  const currentUser = user ? users[user.username] ?? user : null;
+  const scores = attempts.map((attempt) => ({
+    topic: LEETCODE_TOPICS.find((topic) => topic.id === attempt.topic_id)?.name ?? attempt.topic_id,
+    score: attempt.score,
+    date: new Date(attempt.created_at).getTime(),
+  }));
 
-  // ── Auth ──────────────────────────────────────────
-  const handleLogin = (u) => setUser(u);
-  const handleLogout = () => setUser(null);
+  const loadAttempts = useCallback(async () => {
+    if (!user) return;
+
+    setDataLoading(true);
+    setDataError("");
+    const { data, error } = await supabase
+      .from("quiz_attempts")
+      .select("id, topic_id, score, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) setDataError(error.message);
+    else setAttempts(data || []);
+    setDataLoading(false);
+  }, [user]);
+
+  useEffect(() => {
+    if (user) loadAttempts();
+  }, [user, loadAttempts]);
+
+  const loadLeaderboard = async (topicId) => {
+    const { data, error } = await supabase
+      .from("quiz_attempts")
+      .select("user_id, score, profiles!quiz_attempts_user_id_fkey(username)")
+      .eq("topic_id", topicId)
+      .order("score", { ascending: false });
+
+    if (error) {
+      setDataError(error.message);
+      setLeaderboard([]);
+      return;
+    }
+
+    const seen = new Set();
+    const leaders = (data || []).reduce((rows, attempt) => {
+      if (seen.has(attempt.user_id) || rows.length >= 5) return rows;
+      seen.add(attempt.user_id);
+      rows.push({
+        name: attempt.profiles?.username || "Learner",
+        score: attempt.score,
+      });
+      return rows;
+    }, []);
+    setLeaderboard(leaders);
+  };
 
   // ── Quiz flow ─────────────────────────────────────
   const startQuiz = (topicId) => {
@@ -71,19 +106,23 @@ function QuizPage() {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const isLast = current + 1 >= questions.length;
     if (isLast) {
-      // Persist score
       const pct = Math.round((score / questions.length) * 100);
-      const entry = { topic: activeTopic.name, score: pct, date: Date.now() };
-      const updatedUser = {
-        ...users[currentUser.username],
-        scores: [...(users[currentUser.username]?.scores ?? []), entry],
-      };
-      const updatedUsers = { ...users, [currentUser.username]: updatedUser };
-      setUsers(updatedUsers);
-      setUser(updatedUser);
+      setDataError("");
+      const { data, error } = await supabase
+        .from("quiz_attempts")
+        .insert({ user_id: user.id, topic_id: activeTopic.id, score: pct })
+        .select("id, topic_id, score, created_at")
+        .single();
+
+      if (error) {
+        setDataError(`Your result could not be saved: ${error.message}`);
+      } else {
+        setAttempts((currentAttempts) => [data, ...currentAttempts]);
+      }
+      await loadLeaderboard(activeTopic.id);
       setPhase(PHASES.RESULTS);
     } else {
       setCurrent((c) => c + 1);
@@ -97,8 +136,12 @@ function QuizPage() {
   };
 
   // ── Render ────────────────────────────────────────
-  if (!currentUser) {
-    return <AuthPage onLogin={handleLogin} users={users} setUsers={setUsers} />;
+  if (authLoading) {
+    return <div className="page quiz-page__loading">Loading your training profile…</div>;
+  }
+
+  if (!isSupabaseConfigured || !user) {
+    return <AuthPage />;
   }
 
   return (
@@ -117,18 +160,21 @@ function QuizPage() {
                     Leetcode Training
                   </h2>
                   <p className="quiz-page__welcome">
-                    Hey, <strong style={{ color: "var(--accent)" }}>{currentUser.username}</strong>! Complete each level to advance.
+                    Hey, <strong style={{ color: "var(--accent)" }}>{user.username}</strong>! Complete each level to advance.
                   </p>
                 </div>
               </div>
-              <button className="btn-ghost" onClick={handleLogout}>Log out</button>
+              <button className="btn-ghost" onClick={onLogout}>Log out</button>
             </div>
 
+            {dataError && <p className="quiz-page__error">⚠ {dataError}</p>}
+
             {/* Recent scores */}
-            {currentUser.scores?.length > 0 && (
+            {dataLoading && <p className="quiz-page__status">Loading saved progress…</p>}
+            {!dataLoading && scores.length > 0 && (
               <div className="quiz-page__recent">
                 <div className="quiz-page__recent-label">Recent scores</div>
-                {[...currentUser.scores].reverse().slice(0, 3).map((s, i) => (
+                {scores.slice(0, 3).map((s, i) => (
                   <div key={i} className="quiz-page__recent-row">
                     <span>{s.topic}</span>
                     <span style={{
@@ -144,7 +190,7 @@ function QuizPage() {
 
             <ProgressionPath
               topics={LEETCODE_TOPICS}
-              userScores={currentUser.scores}
+              userScores={scores}
               onSelect={startQuiz}
             />
           </>
@@ -171,8 +217,8 @@ function QuizPage() {
             topic={activeTopic}
             correct={score}
             total={questions.length}
-            leaderboard={buildLeaderboard(users, activeTopic.name)}
-            username={currentUser.username}
+            leaderboard={leaderboard}
+            username={user.username}
             onRetry={() => startQuiz(activeTopic.id)}
             onBack={handleExit}
           />
