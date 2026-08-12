@@ -1,5 +1,6 @@
 // src/components/Navbar.jsx
 import React from "react";
+import BrandMark from "./BrandMark";
 import "./Navbar.css";
 
 function Navbar({ page, setPage, user, onLogout }) {
@@ -13,7 +14,8 @@ function Navbar({ page, setPage, user, onLogout }) {
   return (
     <nav className="navbar">
       <button className="navbar__logo" onClick={() => setPage("home")}>
-        Coding-Campus
+        <BrandMark size="nav" />
+        <span>Coding Campus</span>
       </button>
 
       <div className="navbar__links">

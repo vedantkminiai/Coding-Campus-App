@@ -1,5 +1,6 @@
 // src/pages/AuthPage.jsx
 import React, { useState } from "react";
+import BrandMark from "../components/BrandMark";
 import "./AuthPage.css";
 
 function AuthPage({ onLogin, users, setUsers }) {
@@ -57,6 +58,7 @@ function AuthPage({ onLogin, users, setUsers }) {
   return (
     <div className="page auth-page">
       <div className="auth-box fade-up">
+        <BrandMark size="small" className="auth-box__brand-mark" />
         <h2 className="auth-box__title">
           {mode === "login" ? "Welcome back 👋" : "Join Coding-Campus"}
         </h2>

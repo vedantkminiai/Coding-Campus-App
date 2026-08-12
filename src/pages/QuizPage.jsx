@@ -1,5 +1,6 @@
 // src/pages/QuizPage.jsx
 import React, { useState } from "react";
+import BrandMark from "../components/BrandMark";
 import AuthPage from "./AuthPage";
 import TopicSelector from "../components/quiz/TopicSelector";
 import QuestionCard from "../components/quiz/QuestionCard";
@@ -110,14 +111,17 @@ function QuizPage() {
         {phase === PHASES.TOPICS && (
           <>
             <div className="quiz-page__header">
-              <div>
-                <div className="section-label">DSA Quiz</div>
-                <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "0.25rem" }}>
-                  Choose a Topic
-                </h2>
-                <p className="quiz-page__welcome">
-                  Hey, <strong style={{ color: "var(--accent)" }}>{currentUser.username}</strong>! Pick a topic to start.
-                </p>
+              <div className="quiz-page__heading-group">
+                <BrandMark size="small" />
+                <div>
+                  <div className="section-label">DSA Quiz</div>
+                  <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "0.25rem" }}>
+                    Choose a Topic
+                  </h2>
+                  <p className="quiz-page__welcome">
+                    Hey, <strong style={{ color: "var(--accent)" }}>{currentUser.username}</strong>! Pick a topic to start.
+                  </p>
+                </div>
               </div>
               <button className="btn-ghost" onClick={handleLogout}>Log out</button>
             </div>
@@ -131,7 +135,7 @@ function QuizPage() {
                     <span>{s.topic}</span>
                     <span style={{
                       fontFamily: "var(--font-mono)",
-                      color: s.score >= 75 ? "#4ade80" : s.score >= 50 ? "var(--accent3)" : "#f87171",
+                      color: s.score >= 75 ? "var(--accent)" : s.score >= 50 ? "var(--accent3)" : "var(--accent2)",
                     }}>
                       {s.score}%
                     </span>

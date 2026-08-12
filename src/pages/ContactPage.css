@@ -1,19 +1,118 @@
-/* src/pages/ContactPage.css */
+/* Contact page: a simple red, white, and green visual system */
+
+.contact-page {
+  --contact-red: #d9252a;
+  --contact-green: #087a4b;
+  --contact-ink: #17201c;
+  --contact-muted: #65706a;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 24%, rgba(217, 37, 42, 0.08), transparent 28rem),
+    radial-gradient(circle at 92% 76%, rgba(8, 122, 75, 0.09), transparent 30rem),
+    #fcfdfc;
+  color: var(--contact-ink);
+}
+
+.contact-page::before,
+.contact-page::after {
+  content: "";
+  position: absolute;
+  width: 16rem;
+  height: 16rem;
+  border: 1px solid rgba(8, 122, 75, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.contact-page::before {
+  top: 7rem;
+  right: -10rem;
+}
+
+.contact-page::after {
+  bottom: -11rem;
+  left: -7rem;
+  border-color: rgba(217, 37, 42, 0.12);
+}
+
+.contact-page__section {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 3rem, 960px);
+  min-height: calc(100vh - 64px);
+  margin: 0 auto;
+  padding: clamp(5rem, 10vw, 8rem) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-page__header {
+  max-width: 720px;
+  margin-bottom: 3.25rem;
+}
+
+.contact-page__brand-mark {
+  margin-bottom: 1.5rem;
+}
+
+.contact-page__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+  color: var(--contact-green);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contact-page__eyebrow span {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--contact-red);
+  box-shadow: 0 0 0 5px rgba(217, 37, 42, 0.1);
+}
+
+.contact-page__title {
+  max-width: 680px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.7rem, 7vw, 5.25rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.contact-page__title span {
+  color: var(--contact-red);
+}
+
+.contact-page__intro {
+  max-width: 570px;
+  margin-top: 1.5rem;
+  color: var(--contact-muted);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.7;
+}
 
 .contact-page__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
-.contact-page__team-section {
-  border-top: 1px solid var(--border);
-  padding-top: 4rem;
-}
+@media (max-width: 680px) {
+  .contact-page__section {
+    width: min(100% - 2rem, 960px);
+    padding: 4rem 0;
+  }
 
-.contact-page__team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2.5rem;
+  .contact-page__grid {
+    grid-template-columns: 1fr;
+  }
 }

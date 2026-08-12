@@ -29,9 +29,9 @@ function TopicSelector({ topics, userScores, onSelect }) {
                   className="topic-card__score"
                   style={{
                     color:
-                      best >= 75 ? "#4ade80"
+                      best >= 75 ? "var(--accent)"
                       : best >= 50 ? "var(--accent3)"
-                      : "#f87171",
+                      : "var(--accent2)",
                   }}
                 >
                   Best: {best}%

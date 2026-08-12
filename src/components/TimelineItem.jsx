@@ -25,7 +25,7 @@ function TimelineItem({ event, index }) {
               <img
                 className="timeline-item__video-thumbnail"
                 src={event.image}
-                alt="Apple Hacks 2024 opening ceremony workshop overview"
+                alt={event.imageAlt || `${event.title} video thumbnail`}
               />
             )}
             <span className="timeline-item__video-overlay">

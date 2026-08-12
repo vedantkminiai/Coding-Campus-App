@@ -1,21 +1,27 @@
 // src/pages/ContactPage.jsx
 import React from "react";
+import BrandMark from "../components/BrandMark";
 import SocialCard from "../components/SocialCard";
-import TeamCard from "../components/TeamCard";
-import { SOCIAL_LINKS, TEAM_MEMBERS } from "../data/contact";
+import { SOCIAL_LINKS } from "../data/contact";
 import "./ContactPage.css";
 
 function ContactPage() {
   return (
-    <div className="page">
-      {/* Social links */}
-      <section className="section">
-        <div className="section-label">Get in touch</div>
-        <div className="section-title">Contact &amp; Socials</div>
-        <p className="section-sub">
-          We'd love to hear from you — whether you're a student, sponsor, or
-          just curious about what we do.
-        </p>
+    <div className="page contact-page">
+      <section className="contact-page__section">
+        <header className="contact-page__header fade-up">
+          <BrandMark size="medium" className="contact-page__brand-mark" />
+          <div className="contact-page__eyebrow">
+            <span aria-hidden /> Connect with us
+          </div>
+          <h1 className="contact-page__title">
+            Stay connected with <span>Coding Campus.</span>
+          </h1>
+          <p className="contact-page__intro">
+            Follow our journey, discover upcoming opportunities, and see what
+            our community is creating.
+          </p>
+        </header>
 
         <div className="contact-page__grid">
           {SOCIAL_LINKS.map((link, i) => (
@@ -24,18 +30,6 @@ function ContactPage() {
               {...link}
               delay={i * 0.08}
             />
-          ))}
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="section contact-page__team-section">
-        <div className="section-label">The people</div>
-        <div className="section-title">Meet the Team</div>
-
-        <div className="contact-page__team-grid">
-          {TEAM_MEMBERS.map((member, i) => (
-            <TeamCard key={member.name} {...member} delay={i * 0.08} />
           ))}
         </div>
       </section>

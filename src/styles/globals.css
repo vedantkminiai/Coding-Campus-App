@@ -10,20 +10,22 @@
 }
 
 :root {
-  --bg:       #0a0a0f;
-  --surface:  #12121a;
-  --surface2: #1a1a26;
-  --accent:   #00e5ff;
-  --accent2:  #7c3aed;
-  --accent3:  #f59e0b;
-  --text:     #e8e8f0;
-  --muted:    #6b6b8a;
-  --border:   rgba(255, 255, 255, 0.08);
-  --glow:     0 0 40px rgba(0, 229, 255, 0.15);
+  --bg:       #fcfdfc;
+  --surface:  #ffffff;
+  --surface2: #f3f7f4;
+  --accent:   #087a4b;
+  --accent2:  #d9252a;
+  --accent3:  #a56500;
+  --text:     #17201c;
+  --muted:    #65706a;
+  --border:   #dfe6e2;
+  --glow:     0 18px 46px rgba(23, 32, 28, 0.1);
+  --red-soft: rgba(217, 37, 42, 0.08);
+  --green-soft: rgba(8, 122, 75, 0.09);
 
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Fredoka', sans-serif;
   --font-mono:    'Space Mono', monospace;
-  --font-body:    'DM Sans', sans-serif;
+  --font-body:    'Nunito Sans', sans-serif;
 
   --radius-sm: 6px;
   --radius-md: 12px;
@@ -43,7 +45,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Subtle grid background */
+/* Subtle green grid on the white canvas */
 body::after {
   content: '';
   position: fixed;
@@ -51,8 +53,8 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    linear-gradient(rgba(8, 122, 75, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 122, 75, 0.025) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 

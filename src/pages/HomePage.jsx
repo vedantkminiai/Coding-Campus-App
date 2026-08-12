@@ -1,5 +1,6 @@
 // src/pages/HomePage.jsx
 import React from "react";
+import BrandMark from "../components/BrandMark";
 import "./HomePage.css";
 
 const FEATURES = [
@@ -15,6 +16,7 @@ function HomePage({ setPage }) {
       {/* Hero */}
       <section className="hero">
         <div className="hero__bg-glow" aria-hidden />
+        <BrandMark size="hero" className="hero__brand-mark fade-up" />
         <div className="hero__tag fade-up">Where coders level up</div>
 
         <h1 className="hero__heading fade-up delay-1">

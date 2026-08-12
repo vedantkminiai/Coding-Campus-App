@@ -1,39 +1,106 @@
 /* src/components/SocialCard.css */
 
 .social-card {
+  min-height: 290px;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  color: #17201c;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid #e1e6e3;
+  border-radius: 20px;
+  box-shadow: 0 16px 45px rgba(23, 32, 28, 0.06);
   cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: var(--card-accent);
+}
+
+.social-card--linkedin {
+  --card-accent: #087a4b;
+  --card-tint: rgba(8, 122, 75, 0.09);
+}
+
+.social-card--instagram {
+  --card-accent: #d9252a;
+  --card-tint: rgba(217, 37, 42, 0.08);
+}
+
+.social-card:hover,
+.social-card:focus-visible {
+  transform: translateY(-5px);
+  border-color: var(--card-accent);
+  box-shadow: 0 22px 55px rgba(23, 32, 28, 0.12);
+  outline: none;
 }
 
 .social-card__icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  line-height: 1;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: 2.25rem;
+  padding: 0.75rem;
+  display: grid;
+  place-items: center;
+  color: var(--card-accent);
+  background: var(--card-tint);
+  border-radius: 14px;
+}
+
+.social-card__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.social-card--instagram .social-card__icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.social-card--instagram .social-card__icon-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
+.social-card__copy {
+  flex: 1;
 }
 
 .social-card__title {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-bottom: 0.65rem;
 }
 
 .social-card__detail {
-  color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  max-width: 330px;
+  color: #65706a;
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
 .social-card__link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-top: 1rem;
-  color: var(--accent);
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: gap 0.2s;
-  text-decoration: none;
+  gap: 0.55rem;
+  margin-top: 1.75rem;
+  color: var(--card-accent);
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: gap 0.2s ease;
 }
-.social-card__link:hover {
+
+.social-card:hover .social-card__link,
+.social-card:focus-visible .social-card__link {
   gap: 0.7rem;
 }

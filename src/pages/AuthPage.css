@@ -6,6 +6,9 @@
   justify-content: center;
   min-height: calc(100vh - 64px);
   padding: 2rem;
+  background:
+    radial-gradient(circle at 18% 20%, var(--red-soft), transparent 26rem),
+    radial-gradient(circle at 82% 80%, var(--green-soft), transparent 28rem);
 }
 
 .auth-box {
@@ -15,6 +18,8 @@
   padding: 2.5rem;
   width: 100%;
   max-width: 420px;
+  box-shadow: 0 22px 60px rgba(23, 32, 28, 0.1);
+  border-top: 4px solid var(--accent);
 }
 
 .auth-box__title {
@@ -22,6 +27,10 @@
   font-size: 1.8rem;
   font-weight: 800;
   margin-bottom: 0.4rem;
+}
+
+.auth-box__brand-mark {
+  margin-bottom: 1.25rem;
 }
 
 .auth-box__sub {
