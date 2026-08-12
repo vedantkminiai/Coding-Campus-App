@@ -15,6 +15,17 @@
   padding: 0 1.5rem;
 }
 
+.quiz-page__container--path {
+  max-width: 1240px;
+}
+
+.quiz-page__container--path .quiz-page__header,
+.quiz-page__container--path .quiz-page__recent {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .quiz-page__header {
   display: flex;
   align-items: flex-start;

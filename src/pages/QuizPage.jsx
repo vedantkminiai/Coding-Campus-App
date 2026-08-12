@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import BrandMark from "../components/BrandMark";
 import AuthPage from "./AuthPage";
-import TopicSelector from "../components/quiz/TopicSelector";
+import ProgressionPath from "../components/quiz/ProgressionPath";
 import QuestionCard from "../components/quiz/QuestionCard";
 import ResultsScreen from "../components/quiz/ResultsScreen";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { TOPICS, QUESTIONS } from "../data/quiz";
+import { LEETCODE_TOPICS, QUESTIONS } from "../data/quiz";
 import "./QuizPage.css";
 
 // Shuffle array (Fisher-Yates)
@@ -53,7 +53,7 @@ function QuizPage() {
 
   // ── Quiz flow ─────────────────────────────────────
   const startQuiz = (topicId) => {
-    const topic = TOPICS.find((t) => t.id === topicId);
+    const topic = LEETCODE_TOPICS.find((t) => t.id === topicId);
     const qs = shuffle(QUESTIONS[topicId]);
     setActiveTopic(topic);
     setQuestions(qs);
@@ -75,8 +75,6 @@ function QuizPage() {
     const isLast = current + 1 >= questions.length;
     if (isLast) {
       // Persist score
-      const finalScore = score + (selected === questions[current].answer ? 0 : 0);
-      // score is already incremented by handleSelect; just use `score`
       const pct = Math.round((score / questions.length) * 100);
       const entry = { topic: activeTopic.name, score: pct, date: Date.now() };
       const updatedUser = {
@@ -105,7 +103,7 @@ function QuizPage() {
 
   return (
     <div className="page quiz-page">
-      <div className="quiz-page__container">
+      <div className={`quiz-page__container${phase === PHASES.TOPICS ? " quiz-page__container--path" : ""}`}>
 
         {/* Topic selection */}
         {phase === PHASES.TOPICS && (
@@ -114,12 +112,12 @@ function QuizPage() {
               <div className="quiz-page__heading-group">
                 <BrandMark size="small" />
                 <div>
-                  <div className="section-label">DSA Quiz</div>
+                  <div className="section-label">Guided DSA curriculum</div>
                   <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "0.25rem" }}>
-                    Choose a Topic
+                    Leetcode Training
                   </h2>
                   <p className="quiz-page__welcome">
-                    Hey, <strong style={{ color: "var(--accent)" }}>{currentUser.username}</strong>! Pick a topic to start.
+                    Hey, <strong style={{ color: "var(--accent)" }}>{currentUser.username}</strong>! Complete each level to advance.
                   </p>
                 </div>
               </div>
@@ -144,8 +142,8 @@ function QuizPage() {
               </div>
             )}
 
-            <TopicSelector
-              topics={TOPICS}
+            <ProgressionPath
+              topics={LEETCODE_TOPICS}
               userScores={currentUser.scores}
               onSelect={startQuiz}
             />

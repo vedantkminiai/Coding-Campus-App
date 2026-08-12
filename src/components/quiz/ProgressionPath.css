@@ -1,0 +1,273 @@
+.progression-path {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+}
+
+.progression-path__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.progression-path__title {
+  margin-bottom: 0.55rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1;
+}
+
+.progression-path__intro {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.progression-path__summary {
+  min-width: 130px;
+  padding: 1rem 1.15rem;
+  text-align: center;
+  background: var(--green-soft);
+  border: 1px solid rgba(8, 122, 75, 0.18);
+  border-radius: var(--radius-md);
+}
+
+.progression-path__summary strong,
+.progression-path__summary span {
+  display: block;
+}
+
+.progression-path__summary strong {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.progression-path__summary span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.progression-path__meter {
+  height: 7px;
+  margin: 1.5rem 0 2.5rem;
+  overflow: hidden;
+  background: var(--surface2);
+  border-radius: 999px;
+}
+
+.progression-path__meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: inherit;
+  transition: width 0.4s ease;
+}
+
+.progression-path__timeline {
+  position: relative;
+}
+
+.progression-path__timeline::before {
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  bottom: 1.75rem;
+  left: 50%;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--border));
+  border-radius: 999px;
+  transform: translateX(-50%);
+}
+
+.progression-level {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 84px minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 178px;
+  margin-bottom: 0.5rem;
+}
+
+.progression-level__rail {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  grid-column: 2;
+  grid-row: 1;
+  justify-content: center;
+  padding: 0;
+}
+
+.progression-level__rail span {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: #fff;
+  border: 3px solid var(--border);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  box-shadow: 0 0 0 8px rgba(252, 253, 252, 0.94);
+}
+
+.progression-level__card {
+  grid-row: 1;
+  width: min(100%, 500px);
+  min-height: 142px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1.65rem;
+  color: var(--text);
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 28px rgba(23, 32, 28, 0.05);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.progression-level--left .progression-level__card {
+  grid-column: 1;
+  justify-self: end;
+}
+
+.progression-level--right .progression-level__card {
+  grid-column: 3;
+  justify-self: start;
+}
+
+.progression-level__card:not(:disabled):hover,
+.progression-level__card:not(:disabled):focus-visible {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+  outline: none;
+}
+
+.progression-level__icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 2.15rem;
+  background: var(--surface2);
+  border-radius: 17px;
+}
+
+.progression-level__content {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.progression-level__eyebrow {
+  color: var(--accent2);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.progression-level__content strong {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.progression-level__content small {
+  color: var(--muted);
+  margin-top: 0.2rem;
+  font-size: 0.84rem;
+}
+
+.progression-level__action {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.progression-level--complete .progression-level__rail span {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.progression-level--complete .progression-level__card {
+  border-top: 4px solid var(--accent);
+}
+
+.progression-level--available .progression-level__rail span {
+  color: #fff;
+  background: var(--accent2);
+  border-color: var(--accent2);
+}
+
+.progression-level--available .progression-level__card {
+  border-top: 4px solid var(--accent2);
+}
+
+.progression-level--locked .progression-level__card {
+  cursor: not-allowed;
+  opacity: 0.58;
+  box-shadow: none;
+}
+
+@media (max-width: 760px) {
+  .progression-path__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .progression-path__summary {
+    align-self: flex-start;
+  }
+
+  .progression-path__timeline::before {
+    left: 27px;
+    transform: none;
+  }
+
+  .progression-level {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 0.8rem;
+    min-height: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .progression-level__rail {
+    grid-column: 1;
+  }
+
+  .progression-level--left .progression-level__card,
+  .progression-level--right .progression-level__card {
+    grid-column: 2;
+    justify-self: stretch;
+  }
+
+  .progression-level__card {
+    width: 100%;
+    min-height: 118px;
+    padding: 1.15rem;
+  }
+
+  .progression-level__rail span {
+    width: 44px;
+    height: 44px;
+  }
+
+  .progression-level__action {
+    display: none;
+  }
+}
+
+@media (max-width: 460px) {
+  .progression-level__icon {
+    display: none;
+  }
+}

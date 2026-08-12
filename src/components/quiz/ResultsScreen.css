@@ -37,6 +37,27 @@
   margin-bottom: 2rem;
 }
 
+.results-screen__unlock {
+  max-width: 520px;
+  margin: -0.5rem auto 2rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.results-screen__unlock--passed {
+  color: var(--accent);
+  background: var(--green-soft);
+  border: 1px solid rgba(8, 122, 75, 0.2);
+}
+
+.results-screen__unlock--retry {
+  color: var(--accent2);
+  background: var(--red-soft);
+  border: 1px solid rgba(217, 37, 42, 0.2);
+}
+
 .results-screen__actions {
   display: flex;
   gap: 1rem;

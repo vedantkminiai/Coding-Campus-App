@@ -11,6 +11,7 @@ function getResultMessage(pct) {
 
 function ResultsScreen({ topic, correct, total, leaderboard, username, onRetry, onBack }) {
   const pct = Math.round((correct / total) * 100);
+  const isTrainingLevel = Boolean(topic.level);
 
   return (
     <div className="results-screen fade-up">
@@ -21,9 +22,19 @@ function ResultsScreen({ topic, correct, total, leaderboard, username, onRetry, 
         {correct} out of {total} correct on <strong>{topic.name}</strong>
       </div>
 
+      {isTrainingLevel && (
+        <div className={`results-screen__unlock results-screen__unlock--${pct >= 75 ? "passed" : "retry"}`}>
+          {pct >= 75
+            ? "Level complete — your next Leetcode Training challenge is now unlocked."
+            : "Score 75% or higher to complete this level and unlock the next challenge."}
+        </div>
+      )}
+
       <div className="results-screen__actions">
         <button className="btn-primary" onClick={onRetry}>Retry Topic</button>
-        <button className="btn-secondary" onClick={onBack}>Choose Another</button>
+        <button className="btn-secondary" onClick={onBack}>
+          {isTrainingLevel ? "Back to Training Path" : "Choose Another"}
+        </button>
       </div>
 
       {leaderboard.length > 0 && (

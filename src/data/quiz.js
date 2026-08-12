@@ -9,8 +9,228 @@ export const TOPICS = [
   { id: "complexity",  name: "Big-O Complexity",    icon: "⏱️", color: "#f472b6" },
 ];
 
+export const LEETCODE_TOPICS = [
+  ...TOPICS.map((topic, index) => ({ ...topic, level: index + 1 })),
+  { id: "leetcode-stacks", name: "Stacks", icon: "📚", level: 6 },
+  { id: "leetcode-binary-search", name: "Binary Search", icon: "🎯", level: 7 },
+  { id: "leetcode-trees", name: "Trees", icon: "🌳", level: 8 },
+  { id: "leetcode-tries", name: "Tries", icon: "🔤", level: 9 },
+  { id: "leetcode-heaps", name: "Heaps", icon: "⛰️", level: 10 },
+  { id: "leetcode-backtracking", name: "Backtracking", icon: "🧭", level: 11 },
+];
+
 // Each question: { q, options[], answer (index), difficulty, category, explanation }
 export const QUESTIONS = {
+  "leetcode-stacks": [
+    {
+      q: "Which rule describes the order in which a stack removes elements?",
+      options: ["FIFO", "LIFO", "Lowest value first", "Random order"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Stacks",
+      explanation: "A stack is Last In, First Out: the most recently pushed item is the first one popped.",
+    },
+    {
+      q: "Which stack technique solves the Valid Parentheses problem?",
+      options: ["Push opening brackets and match them when closing brackets appear", "Sort every bracket", "Use binary search", "Count only the opening brackets"],
+      answer: 0,
+      difficulty: "easy",
+      category: "Stacks",
+      explanation: "Opening brackets are pushed; every closing bracket must match the type at the top of the stack.",
+    },
+    {
+      q: "A monotonic decreasing stack is especially useful for finding what?",
+      options: ["Connected components", "The next greater element", "A string prefix", "The middle linked-list node"],
+      answer: 1,
+      difficulty: "medium",
+      category: "Stacks",
+      explanation: "A decreasing stack keeps unresolved values until a larger value appears, which reveals their next greater element.",
+    },
+    {
+      q: "What is the time complexity of the standard stack solution to Daily Temperatures?",
+      options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+      answer: 2,
+      difficulty: "hard",
+      category: "Stacks",
+      explanation: "Each index is pushed and popped at most once, so all stack operations total O(n).",
+    },
+  ],
+
+  "leetcode-binary-search": [
+    {
+      q: "What condition must usually be true before using binary search on an array?",
+      options: ["It must be sorted", "It must contain unique values", "It must have even length", "It must be a linked list"],
+      answer: 0,
+      difficulty: "easy",
+      category: "Binary Search",
+      explanation: "Binary search relies on sorted order to discard half of the remaining search space after each comparison.",
+    },
+    {
+      q: "Which midpoint expression avoids integer overflow?",
+      options: ["(left + right) * 2", "left + (right - left) / 2", "right - left / 2", "left / right"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Binary Search",
+      explanation: "left + (right - left) / 2 avoids adding two potentially large boundary values directly.",
+    },
+    {
+      q: "When searching for the first true value in a false-then-true predicate, what should happen when predicate(mid) is true?",
+      options: ["Move left to mid + 1", "Move right to mid", "Stop without saving mid", "Reset both boundaries"],
+      answer: 1,
+      difficulty: "medium",
+      category: "Binary Search",
+      explanation: "A true midpoint may be the first true value, so it remains in the range while the right boundary moves to mid.",
+    },
+    {
+      q: "Binary search on the answer is valid when the feasibility test has which property?",
+      options: ["Randomness", "Monotonicity", "Recursion only", "Constant memory only"],
+      answer: 1,
+      difficulty: "hard",
+      category: "Binary Search",
+      explanation: "The possible answers must transition monotonically from infeasible to feasible, or the reverse, so half can be discarded.",
+    },
+  ],
+
+  "leetcode-trees": [
+    {
+      q: "Which traversal naturally uses a queue?",
+      options: ["Preorder DFS", "Inorder DFS", "Postorder DFS", "Level-order BFS"],
+      answer: 3,
+      difficulty: "easy",
+      category: "Trees",
+      explanation: "Level-order traversal processes nodes breadth-first, using a queue to visit each level from left to right.",
+    },
+    {
+      q: "What is the base case when recursively finding the maximum depth of a binary tree?",
+      options: ["A null node has depth 0", "Every leaf has depth 0 only", "The root has depth n", "A missing child has depth 1"],
+      answer: 0,
+      difficulty: "easy",
+      category: "Trees",
+      explanation: "A null subtree contributes zero depth; a real node adds one to the maximum depth of its children.",
+    },
+    {
+      q: "How can a recursive function validate a binary search tree correctly?",
+      options: ["Compare each node only with its children", "Pass valid lower and upper bounds down the tree", "Check that every level is sorted", "Count the leaves"],
+      answer: 1,
+      difficulty: "medium",
+      category: "Trees",
+      explanation: "Each node must satisfy constraints inherited from every ancestor, which lower and upper bounds capture.",
+    },
+    {
+      q: "A postorder solution for Binary Tree Maximum Path Sum should return what to its parent?",
+      options: ["The full best path anywhere", "The best single downward branch", "The number of leaves", "The inorder sequence"],
+      answer: 1,
+      difficulty: "hard",
+      category: "Trees",
+      explanation: "A parent can extend only one child branch. The two-branch path is used to update the global answer locally.",
+    },
+  ],
+
+  "leetcode-tries": [
+    {
+      q: "What does each edge in a standard trie usually represent?",
+      options: ["A complete sentence", "A character", "A numeric priority", "A tree height"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Tries",
+      explanation: "Trie paths are built character by character, so following a path spells a prefix or complete word.",
+    },
+    {
+      q: "Why does a trie node need an end-of-word marker?",
+      options: ["To sort its children", "To distinguish a complete word from a prefix", "To record tree depth", "To delete the root"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Tries",
+      explanation: "The path for 'app' also prefixes 'apple'; an end marker records whether that path is itself a stored word.",
+    },
+    {
+      q: "For a word of length L, what is the typical trie lookup time?",
+      options: ["O(1)", "O(log L)", "O(L)", "O(L²)"],
+      answer: 2,
+      difficulty: "medium",
+      category: "Tries",
+      explanation: "Lookup follows one edge for each character of the word, requiring O(L) steps.",
+    },
+    {
+      q: "In Word Search II, why combine DFS backtracking with a trie?",
+      options: ["To sort the board", "To stop exploring paths that match no word prefix", "To avoid marking visited cells", "To make the board binary"],
+      answer: 1,
+      difficulty: "hard",
+      category: "Tries",
+      explanation: "The trie prunes DFS immediately when the current board path is not a prefix of any target word.",
+    },
+  ],
+
+  "leetcode-heaps": [
+    {
+      q: "Which value is available at the root of a min-heap?",
+      options: ["The largest value", "The smallest value", "The newest value", "The median value"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Heaps",
+      explanation: "The min-heap property keeps the smallest element at the root for efficient access.",
+    },
+    {
+      q: "What is the time complexity of pushing an item into a binary heap?",
+      options: ["O(1) always", "O(log n)", "O(n)", "O(n log n)"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Heaps",
+      explanation: "The inserted value may bubble through the height of the heap, which is O(log n).",
+    },
+    {
+      q: "To find the kth largest element while storing only k values, which structure is most useful?",
+      options: ["A min-heap of size k", "A max-heap containing one value", "A stack", "A trie"],
+      answer: 0,
+      difficulty: "medium",
+      category: "Heaps",
+      explanation: "A size-k min-heap retains the k largest values seen; its root is the kth largest.",
+    },
+    {
+      q: "How does the two-heap Median Finder divide its data?",
+      options: ["Even and odd values", "Lower half in a max-heap and upper half in a min-heap", "Duplicates and unique values", "Sorted and unsorted values"],
+      answer: 1,
+      difficulty: "hard",
+      category: "Heaps",
+      explanation: "The max-heap exposes the largest lower value and the min-heap exposes the smallest upper value, making the median accessible.",
+    },
+  ],
+
+  "leetcode-backtracking": [
+    {
+      q: "What are the three core steps in a backtracking loop?",
+      options: ["Sort, search, merge", "Choose, explore, unchoose", "Push, peek, pop only", "Hash, map, reduce"],
+      answer: 1,
+      difficulty: "easy",
+      category: "Backtracking",
+      explanation: "Backtracking makes a choice, recursively explores it, then undoes the choice before trying another option.",
+    },
+    {
+      q: "In the Subsets problem, when is the current path commonly added to the result?",
+      options: ["At every recursion node", "Only when its length is n", "Only when it is empty", "After sorting the results"],
+      answer: 0,
+      difficulty: "easy",
+      category: "Backtracking",
+      explanation: "Every partial path represents a valid subset, so a copy is recorded at each recursion node.",
+    },
+    {
+      q: "How do you avoid duplicate combinations when candidates contain repeated values?",
+      options: ["Never sort the candidates", "Sort and skip equal choices at the same recursion depth", "Use every value twice", "Reverse the answer"],
+      answer: 1,
+      difficulty: "medium",
+      category: "Backtracking",
+      explanation: "After sorting, equal sibling choices generate identical branches and can be skipped at the same depth.",
+    },
+    {
+      q: "Which pruning rule is fundamental in the N-Queens problem?",
+      options: ["Reject a queen sharing a column or diagonal", "Reject every corner square", "Use only the first row", "Place queens in sorted order"],
+      answer: 0,
+      difficulty: "hard",
+      category: "Backtracking",
+      explanation: "A valid placement cannot share a column, main diagonal, or anti-diagonal with a queen already placed.",
+    },
+  ],
+
   arrays: [
     {
       q: "What is the time complexity of accessing an element in an array by index?",
