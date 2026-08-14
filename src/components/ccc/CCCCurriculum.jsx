@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { buildCCCStages, CCC_YEARS } from "../../data/ccc";
+import FormattedCCCText from "./FormattedCCCText";
+import CodeWorkspace from "./CodeWorkspace";
 import "./CCCCurriculum.css";
 
 function StageCard({ stage, index, completed, unlocked, onOpen }) {
@@ -25,7 +27,7 @@ function StageCard({ stage, index, completed, unlocked, onOpen }) {
   );
 }
 
-function ProblemWorkspace({ stage, selected, completed, onSelect, onToggleComplete }) {
+function ProblemWorkspace({ stage, selected, completed, onSelect, onToggleComplete, userId }) {
   if (!stage) return null;
 
   return (
@@ -64,14 +66,64 @@ function ProblemWorkspace({ stage, selected, completed, onSelect, onToggleComple
             <section className="ccc-reading-block">
               <div className="ccc-reading-block__label">Problem</div>
               <div className="ccc-reading-block__content">
-                {selected.statement || "No problem statement was included in this record."}
+                <FormattedCCCText fallback="No problem statement was included in this record.">
+                  {selected.statement}
+                </FormattedCCCText>
               </div>
             </section>
+
+            {selected.samples.length > 0 && (
+              <section className="ccc-problem-section" aria-labelledby="ccc-samples-title">
+                <div id="ccc-samples-title" className="ccc-reading-block__label">Sample cases</div>
+                <div className="ccc-sample-grid">
+                  {selected.samples.map((sample, index) => (
+                    <article className="ccc-sample" key={sample.id}>
+                      <strong>{sample.label || `Sample ${index + 1}`}</strong>
+                      <div className="ccc-sample__io">
+                        <div>
+                          <span>Input</span>
+                          <pre><FormattedCCCText fallback="—">{sample.input}</FormattedCCCText></pre>
+                        </div>
+                        <div>
+                          <span>Expected output</span>
+                          <pre><FormattedCCCText fallback="—">{sample.output}</FormattedCCCText></pre>
+                        </div>
+                      </div>
+                      {sample.explanation && <p><FormattedCCCText>{sample.explanation}</FormattedCCCText></p>}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {selected.subtasks.length > 0 && (
+              <section className="ccc-problem-section" aria-labelledby="ccc-subtasks-title">
+                <div id="ccc-subtasks-title" className="ccc-reading-block__label">Scoring subtasks</div>
+                <div className="ccc-subtask-list">
+                  {selected.subtasks.map((subtask, index) => (
+                    <article className="ccc-subtask" key={subtask.id}>
+                      <span className="ccc-subtask__number">{index + 1}</span>
+                      <div>
+                        <strong>{subtask.label}</strong>
+                        {subtask.description && <p><FormattedCCCText>{subtask.description}</FormattedCCCText></p>}
+                      </div>
+                      {subtask.points !== null && subtask.points !== undefined && (
+                        <span className="ccc-subtask__points">{subtask.points} pts</span>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <CodeWorkspace key={selected.id} problem={selected} userId={userId} />
 
             <details className="ccc-solution">
               <summary>Study the commentary &amp; solution</summary>
               <div className="ccc-solution__content">
-                {selected.solution || "No solution commentary is attached to this problem yet."}
+                <FormattedCCCText fallback="No solution commentary is attached to this problem yet.">
+                  {selected.solution}
+                </FormattedCCCText>
               </div>
             </details>
 
@@ -94,7 +146,7 @@ function ProblemWorkspace({ stage, selected, completed, onSelect, onToggleComple
   );
 }
 
-function CCCCurriculum({ problems, loading, completed, onToggleComplete }) {
+function CCCCurriculum({ problems, loading, completed, onToggleComplete, userId }) {
   const stages = useMemo(() => buildCCCStages(problems), [problems]);
   const [activeStageId, setActiveStageId] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState(null);
@@ -171,6 +223,7 @@ function CCCCurriculum({ problems, loading, completed, onToggleComplete }) {
               completed={completed}
               onSelect={setSelectedProblem}
               onToggleComplete={onToggleComplete}
+              userId={userId}
             />
           </div>
         </>

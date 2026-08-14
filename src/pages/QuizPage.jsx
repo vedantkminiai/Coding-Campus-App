@@ -27,7 +27,12 @@ function CCCTraining({ user, onLogout }) {
 
       const { data, error } = await supabase
         .from("problems")
-        .select("*, problem_commentary(*)");
+        .select(`
+          *,
+          problem_commentary (*),
+          sample_cases (*),
+          subtasks (*)
+        `);
 
       if (!active) return;
 
@@ -86,6 +91,7 @@ function CCCTraining({ user, onLogout }) {
           loading={dataLoading}
           completed={completed}
           onToggleComplete={toggleComplete}
+          userId={user.id}
         />
       </div>
     </div>

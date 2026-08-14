@@ -1,0 +1,206 @@
+.code-workspace {
+  margin-top: 2.25rem;
+  overflow: hidden;
+  color: #eef7f2;
+  background: #101814;
+  border: 1px solid #293a32;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 50px rgba(12, 29, 21, 0.2);
+}
+
+.code-workspace__header,
+.code-workspace__toolbar,
+.code-workspace__actions,
+.code-workspace__coach {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.code-workspace__header { padding: 1.3rem 1.4rem; }
+
+.code-workspace__header h3 {
+  margin-top: 0.12rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+}
+
+.code-workspace__eyebrow {
+  display: block;
+  color: #79d6a6;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.code-workspace__limits { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: flex-end; }
+
+.code-workspace__limits span,
+.code-workspace__metrics span {
+  padding: 0.28rem 0.55rem;
+  color: #bcd0c5;
+  background: #1d2a24;
+  border: 1px solid #30443a;
+  border-radius: 99px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+
+.code-workspace__toolbar {
+  justify-content: flex-start;
+  padding: 0.7rem 1rem;
+  background: #17221c;
+  border-top: 1px solid #293a32;
+  border-bottom: 1px solid #293a32;
+}
+
+.code-workspace__toolbar label { display: flex; align-items: center; gap: 0.55rem; }
+.code-workspace__toolbar label > span { color: #93a69c; font-size: 0.72rem; }
+
+.code-workspace__toolbar select {
+  padding: 0.42rem 2rem 0.42rem 0.65rem;
+  color: #fff;
+  background: #24342c;
+  border: 1px solid #3d5549;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.code-workspace__filename { color: #84978d; font-family: var(--font-mono); font-size: 0.7rem; }
+
+.code-workspace__reset {
+  margin-left: auto;
+  padding: 0.35rem;
+  color: #9cb0a5;
+  background: none;
+  border: 0;
+  font-size: 0.72rem;
+}
+
+.code-workspace__reset:hover { color: #fff; }
+.code-workspace__editor { background: #1e1e1e; }
+.code-workspace__editor-loading { height: 430px; display: grid; place-items: center; color: #8fa198; }
+
+.code-workspace__lower {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+  border-top: 1px solid #293a32;
+}
+
+.code-workspace__input,
+.code-workspace__console { min-width: 0; padding: 1rem; }
+.code-workspace__input { border-right: 1px solid #293a32; }
+.code-workspace__input label,
+.code-workspace__console-head > span {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: #93a69c;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.code-workspace__input textarea {
+  width: 100%;
+  min-height: 112px;
+  resize: vertical;
+  padding: 0.75rem;
+  color: #e8f0eb;
+  background: #0b110e;
+  border: 1px solid #2d4036;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.code-workspace__samples { display: flex; gap: 0.4rem; margin-top: 0.55rem; flex-wrap: wrap; }
+.code-workspace__samples button {
+  padding: 0.25rem 0.5rem;
+  color: #91c9ac;
+  background: #1b2a22;
+  border: 1px solid #30483b;
+  border-radius: 5px;
+  font-size: 0.65rem;
+}
+
+.code-workspace__console-head { display: flex; align-items: center; justify-content: space-between; }
+.code-workspace__console-head > span { margin: 0; }
+.code-workspace__console pre {
+  min-height: 112px;
+  max-height: 240px;
+  overflow: auto;
+  padding: 0.75rem;
+  color: #d9e5de;
+  background: #0b110e;
+  border: 1px solid #2d4036;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.code-workspace__status { font-family: var(--font-mono); font-size: 0.64rem; text-transform: uppercase; }
+.code-workspace__status--idle { color: #a9bbb1; }
+.code-workspace__status--pass { color: #79d6a6; }
+.code-workspace__status--fail { color: #ff777b; }
+.code-workspace__metrics { display: flex; gap: 0.4rem; margin-top: 0.55rem; }
+
+.code-workspace__tests {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.code-workspace__tests span {
+  padding: 0.25rem 0.48rem;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+
+.code-workspace__test--pass { color: #8be0b4; background: rgba(55, 170, 108, 0.14); }
+.code-workspace__test--fail { color: #ff8d90; background: rgba(217, 37, 42, 0.16); }
+
+.code-workspace__actions {
+  padding: 1rem 1.2rem;
+  border-top: 1px solid #293a32;
+}
+
+.code-workspace__actions p { color: #91a39a; font-size: 0.75rem; }
+.code-workspace__actions > div { display: flex; gap: 0.65rem; flex-shrink: 0; }
+.code-workspace button:disabled { cursor: wait; opacity: 0.62; }
+
+.code-workspace__coach {
+  align-items: flex-start;
+  padding: 1.15rem 1.2rem;
+  color: var(--text);
+  background: #edf8f2;
+  border-top: 1px solid #b9dfca;
+  flex-wrap: wrap;
+}
+
+.code-workspace__coach > div:first-child strong { display: block; margin-top: 0.22rem; }
+.code-workspace__feedback { width: 100%; padding-top: 1rem; border-top: 1px solid #c8e3d4; }
+.code-workspace__feedback > strong { display: block; font-family: var(--font-display); font-size: 1.05rem; }
+.code-workspace__feedback p { margin-top: 0.45rem; color: #3d584b; line-height: 1.55; }
+.code-workspace__feedback > div { display: flex; gap: 0.4rem; margin-top: 0.7rem; flex-wrap: wrap; }
+.code-workspace__feedback > div span { padding: 0.25rem 0.5rem; color: var(--accent); background: #fff; border-radius: 99px; font-size: 0.7rem; }
+
+@media (max-width: 760px) {
+  .code-workspace__header,
+  .code-workspace__actions { align-items: flex-start; flex-direction: column; }
+  .code-workspace__limits { justify-content: flex-start; }
+  .code-workspace__lower { grid-template-columns: 1fr; }
+  .code-workspace__input { border-right: 0; border-bottom: 1px solid #293a32; }
+  .code-workspace__actions > div { width: 100%; }
+  .code-workspace__actions button { flex: 1; }
+  .code-workspace__editor .monaco-editor,
+  .code-workspace__editor .overflow-guard { border-radius: 0; }
+}
