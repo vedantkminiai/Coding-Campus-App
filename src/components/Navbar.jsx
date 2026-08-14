@@ -8,7 +8,7 @@ function Navbar({ page, setPage, user, onLogout }) {
     { id: "home",      label: "Home" },
     { id: "contact",   label: "Contact" },
     { id: "hackathon", label: "Hackathon" },
-    { id: "quiz",      label: "Quiz" },
+    { id: "quiz",      label: "CCC Training" },
   ];
 
   return (

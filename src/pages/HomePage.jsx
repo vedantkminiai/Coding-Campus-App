@@ -4,7 +4,7 @@ import BrandMark from "../components/BrandMark";
 import "./HomePage.css";
 
 const FEATURES = [
-  { icon: "🧩", title: "DSA Quiz Game",  desc: "Test your knowledge on arrays, trees, sorting, and more. Track progress and compete with peers." },
+  { icon: "🍁", title: "CCC Training",  desc: "Train with real Waterloo CCC Junior and Senior problems from 2022–2025, backed by guided solutions." },
   { icon: "🏅", title: "Hackathons",     desc: "48-hour coding sprints with real mentors, workshops, and prizes. Build something that matters." },
   { icon: "📡", title: "Workshops",      desc: "Live and recorded sessions on web dev, backend, AI, and more — led by industry professionals." },
   { icon: "🤝", title: "Community",      desc: "A welcoming space for all skill levels. Pair program, get feedback, grow together." },
@@ -32,7 +32,7 @@ function HomePage({ setPage }) {
 
         <div className="hero__actions fade-up delay-3">
           <button className="btn-primary" onClick={() => setPage("quiz")}>
-            Start Learning →
+            Start CCC Training →
           </button>
           <button className="btn-secondary" onClick={() => setPage("hackathon")}>
             View Hackathon
