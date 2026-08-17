@@ -25,9 +25,12 @@ export const normalizeCCCText = (value) => {
   const namedEntities = {
     amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ",
     le: "≤", ge: "≥", ne: "≠", times: "×", minus: "−", ndash: "–", mdash: "—",
+    hellip: "…", copy: "©", reg: "®",
   };
 
   return text
+    .replace(/\r\n?/g, "\n")
+    .replace(/\\u([0-9a-f]{4})/gi, (_, code) => String.fromCharCode(Number.parseInt(code, 16)))
     .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity) => {
       if (entity[0] === "#") {
         const hexadecimal = entity[1]?.toLowerCase() === "x";
@@ -40,23 +43,31 @@ export const normalizeCCCText = (value) => {
     .replace(/<(strong|b)>/gi, "**")
     .replace(/<\/(strong|b)>/gi, "**")
     .replace(/<[^>]+>/g, "")
+    .replace(/\\\(|\\\)|\\\[|\\\]/g, "")
+    .replace(/\\(?:,|;|:|!)/g, " ")
     .replace(/\\(?:textbf|mathbf)\{([^{}]*)\}/g, "**$1**")
     .replace(/\\(?:text|mathrm|operatorname)\{([^{}]*)\}/g, "$1")
     .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, "($1)/($2)")
-    .replace(/\\(?:leq|le)\b/g, "≤")
-    .replace(/\\(?:geq|ge)\b/g, "≥")
-    .replace(/\\neq\b/g, "≠")
-    .replace(/\\times\b/g, "×")
-    .replace(/\\cdot\b/g, "·")
-    .replace(/\\pm\b/g, "±")
-    .replace(/\\infty\b/g, "∞")
-    .replace(/\\rightarrow\b|\\to\b/g, "→")
-    .replace(/\\leftarrow\b/g, "←")
-    .replace(/\\ldots\b|\\dots\b/g, "…")
-    .replace(/\\in\b/g, "∈")
-    .replace(/\\notin\b/g, "∉")
-    .replace(/\\sum\b/g, "Σ")
+    .replace(/\\(?:leq|le)(?=[^A-Za-z]|$)/g, "≤")
+    .replace(/\\(?:geq|ge)(?=[^A-Za-z]|$)/g, "≥")
+    .replace(/\\neq(?=[^A-Za-z]|$)/g, "≠")
+    .replace(/\\times(?=[^A-Za-z]|$)/g, "×")
+    .replace(/\\cdot(?=[^A-Za-z]|$)/g, "·")
+    .replace(/\\pm(?=[^A-Za-z]|$)/g, "±")
+    .replace(/\\infty(?=[^A-Za-z]|$)/g, "∞")
+    .replace(/\\(?:rightarrow|to)(?=[^A-Za-z]|$)/g, "→")
+    .replace(/\\leftarrow(?=[^A-Za-z]|$)/g, "←")
+    .replace(/\\(?:ldots|dots)(?=[^A-Za-z]|$)/g, "…")
+    .replace(/\\notin(?=[^A-Za-z]|$)/g, "∉")
+    .replace(/\\in(?=[^A-Za-z]|$)/g, "∈")
+    .replace(/\\sum(?=[^A-Za-z]|$)/g, "Σ")
+    .replace(/\\(?:lfloor|rfloor)(?=[^A-Za-z]|$)/g, (match) => match.startsWith("\\l") ? "⌊" : "⌋")
+    .replace(/\\(?:lceil|rceil)(?=[^A-Za-z]|$)/g, (match) => match.startsWith("\\l") ? "⌈" : "⌉")
+    .replace(/\\(?:cup)(?=[^A-Za-z]|$)/g, "∪")
+    .replace(/\\(?:cap)(?=[^A-Za-z]|$)/g, "∩")
+    .replace(/\\pi(?=[^A-Za-z]|$)/g, "π")
     .replace(/\\sqrt\{([^{}]*)\}/g, "√($1)")
+    .replace(/([_^])\{([^{}]*)\}/g, "$1$2")
     .replace(/\\%/g, "%")
     .replace(/\$+/g, "")
     .replace(/â‰¤/g, "≤")
@@ -68,7 +79,10 @@ export const normalizeCCCText = (value) => {
     .replace(/â†/g, "←")
     .replace(/â€¦/g, "…")
     .replace(/Â(?=\s|$)/g, "")
-    .replace(/\\u([0-9a-f]{4})/gi, (_, code) => String.fromCharCode(Number.parseInt(code, 16)))
+    .replace(/([0-9A-Za-z)])\s*([×÷≤≥≠=+])\s*(?=[0-9A-Za-z(])/g, "$1 $2 ")
+    .replace(/([0-9)])\s*\n\s*([+−-])\s*(?=[0-9])/g, "$1 $2 ")
+    .replace(/[ \t]+([,.;:!?])/g, "$1")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 };
 
