@@ -41,17 +41,22 @@ create trigger on_auth_user_created
 alter table public.profiles enable row level security;
 alter table public.quiz_attempts enable row level security;
 
+drop policy if exists "Authenticated users can read profiles" on public.profiles;
 create policy "Authenticated users can read profiles"
   on public.profiles for select to authenticated using (true);
+drop policy if exists "Users can update their own profile" on public.profiles;
 create policy "Users can update their own profile"
   on public.profiles for update to authenticated
   using (auth.uid() = id) with check (auth.uid() = id);
 
+drop policy if exists "Authenticated users can read quiz attempts" on public.quiz_attempts;
 create policy "Authenticated users can read quiz attempts"
   on public.quiz_attempts for select to authenticated using (true);
+drop policy if exists "Users can insert their own quiz attempts" on public.quiz_attempts;
 create policy "Users can insert their own quiz attempts"
   on public.quiz_attempts for insert to authenticated
   with check (auth.uid() = user_id);
+drop policy if exists "Users can delete their own quiz attempts" on public.quiz_attempts;
 create policy "Users can delete their own quiz attempts"
   on public.quiz_attempts for delete to authenticated
   using (auth.uid() = user_id);
