@@ -50,6 +50,15 @@ public class Main {
   },
 };
 
+const CONFETTI = Array.from({ length: 42 }, (_, index) => ({
+  id: index,
+  x: (index * 37) % 101,
+  delay: (index * 73) % 850,
+  duration: 1900 + ((index * 97) % 1100),
+  drift: ((index * 53) % 180) - 90,
+  rotation: 360 + ((index * 41) % 540),
+}));
+
 const printable = (value) => {
   if (value === null || value === undefined || value === "") return "";
   return typeof value === "string" ? value : JSON.stringify(value, null, 2);
@@ -72,6 +81,7 @@ function CodeWorkspace({ problem, userId }) {
   const [result, setResult] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [hintLoading, setHintLoading] = useState(false);
+  const [celebrationId, setCelebrationId] = useState(0);
 
   const draftKey = useMemo(
     () => `ccc-draft-${userId}-${problem.id}-${language}`,
@@ -93,6 +103,12 @@ function CodeWorkspace({ problem, userId }) {
     const savedInput = localStorage.getItem(inputKey);
     setCustomInput(savedInput ?? problem.samples?.[0]?.input ?? "");
   }, [inputKey, problem.samples]);
+
+  useEffect(() => {
+    if (!celebrationId) return undefined;
+    const timer = window.setTimeout(() => setCelebrationId(0), 3400);
+    return () => window.clearTimeout(timer);
+  }, [celebrationId]);
 
   const updateSource = (value) => {
     const nextValue = value ?? "";
@@ -146,6 +162,9 @@ function CodeWorkspace({ problem, userId }) {
         submissionId: data?.submission_id,
       });
       if (data?.feedback) setFeedback(data.feedback);
+      if (mode === "submit" && data?.passed === true) {
+        setCelebrationId((current) => current + 1 || 1);
+      }
     }
 
     setRunning(false);
@@ -174,12 +193,16 @@ function CodeWorkspace({ problem, userId }) {
     setHintLoading(false);
   };
 
-  const resetDraft = () => {
+  const resetWorkspace = () => {
     const template = LANGUAGES[language].template;
+    const initialInput = problem.samples?.[0]?.input ?? "";
     setSourceCode(template);
-    localStorage.setItem(draftKey, template);
+    setCustomInput(initialInput);
+    localStorage.removeItem(draftKey);
+    localStorage.removeItem(inputKey);
     setResult(null);
     setFeedback(null);
+    setCelebrationId(0);
   };
 
   const statusLabel = result?.passed === true
@@ -189,7 +212,31 @@ function CodeWorkspace({ problem, userId }) {
       : result?.status || "Ready";
 
   return (
-    <section className="code-workspace" aria-labelledby={`code-workspace-${problem.id}`}>
+    <>
+      {celebrationId > 0 && (
+        <div className="code-workspace__celebration" role="status" aria-live="polite">
+          <div className="code-workspace__celebration-card">
+            <span>Problem solved</span>
+            <strong>Accepted!</strong>
+          </div>
+          <div className="code-workspace__confetti" aria-hidden="true">
+            {CONFETTI.map((piece) => (
+              <span
+                key={`${celebrationId}-${piece.id}`}
+                style={{
+                  "--confetti-x": `${piece.x}%`,
+                  "--confetti-delay": `${piece.delay}ms`,
+                  "--confetti-duration": `${piece.duration}ms`,
+                  "--confetti-drift": `${piece.drift}px`,
+                  "--confetti-rotation": `${piece.rotation}deg`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      <section className="code-workspace" aria-labelledby={`code-workspace-${problem.id}`}>
       <header className="code-workspace__header">
         <div>
           <span className="code-workspace__eyebrow">Contest workspace</span>
@@ -212,7 +259,15 @@ function CodeWorkspace({ problem, userId }) {
           </select>
         </label>
         <span className="code-workspace__filename">main.{LANGUAGES[language].extension}</span>
-        <button type="button" className="code-workspace__reset" onClick={resetDraft}>Reset starter</button>
+        <button
+          type="button"
+          className="code-workspace__reset"
+          onClick={resetWorkspace}
+          disabled={running || hintLoading}
+          title="Restore the starter code, sample input, and empty output"
+        >
+          ↺ Reset workspace
+        </button>
       </div>
 
       <div className="code-workspace__editor">
@@ -323,7 +378,8 @@ function CodeWorkspace({ problem, userId }) {
           </div>
         )}
       </aside>
-    </section>
+      </section>
+    </>
   );
 }
 
